@@ -19,6 +19,7 @@ exports.signup = async (req, res) => {
       isCommerce,
       schedule,
       tags,
+      description,
     } = req.body;
 
     if (!isCommerce) {
@@ -37,7 +38,8 @@ exports.signup = async (req, res) => {
         !name ||
         !category ||
         !tags ||
-        !schedule;
+        !schedule ||
+        !description;
       if (hasMissingCredentials) {
         return res.status(400).json({ message: "missing credentials" });
       }
@@ -80,6 +82,7 @@ exports.signup = async (req, res) => {
         profileImg,
         tags,
         schedule,
+        description,
       });
     }
 
@@ -148,6 +151,6 @@ exports.getUser = async (req, res) => {
 
 exports.getCommerce = async (req, res) => {
   const { userId } = req.session;
-  const commerce = await Commerce.findOne({ userId });
+  const commerce = await Commerce.findOne({ _id: userId });
   res.status(200).json(commerce);
 };

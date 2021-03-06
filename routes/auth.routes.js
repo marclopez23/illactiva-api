@@ -14,6 +14,6 @@ route
   .post("/login", login)
   .post("/logout", logout)
   .get("/user", withAuth, getUser)
-  .get("/user", withAuth, getCommerce);
+  .get("/commerce", withAuth, getCommerce);
 
 module.exports = route;
