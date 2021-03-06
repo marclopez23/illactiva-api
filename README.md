@@ -121,7 +121,7 @@ User model
   direction: {type: String, required: true},
   category: {type: String, required: true, enum:["talleres", "deporte", "exposiciones", "Visitas y tours", "infatil", "quedadas", "cine", "espectáculos", "charlas", "música", "otros"] },
   profileImg: {type: String },
-  eventsJoined: [ { type: mongoose.Schema.Types.ObjectId, ref: "Event" } ]
+  eventsJoined: [ { type: mongoose.Schema.Types.ObjectId, ref: "Event" } ],
   eventsCreated: [ { type: mongoose.Schema.Types.ObjectId, ref: "Event" } ]
 }
 ```
@@ -131,13 +131,13 @@ Commerce model
 ```javascript
 {
   name: {type: String, required: true, unique: true},
-  description: {type: String, required: true}
+  description: {type: String, required: true},
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
   direction: {type: String, required: true},
   category: {type: String, enum:["restauración", "cultura", "moda", "asociación", "deporte", "salud", "electrónica", "otros", "comida"], required: true },
   tags: {type: Array, required: true },
-  schedule: {type: String, required: true}
+  schedule: {type: String, required: true},
   profileImg: {type: String },
   eventsCreated: [ { type: mongoose.Schema.Types.ObjectId, ref: "Envent" } ]
 }
@@ -152,13 +152,13 @@ Event model
     type: String,
     required: true,
     enum: ['User', 'Commerce']
-  }
+  },
   title: {type: String, required: true },
   description: {type: String, required: true },
   eventImg: { type: String },
   category: {type: String, required: true, enum:["talleres", "deporte", "exposiciones", "Visitas y tours", "infatil", "quedadas", "cine", "espectáculos", "charlas", "música", "otros"] },
   free: {type: boolean, required: true,}
-  likes: {type: Number }
+  likes: {type: Number },
   price: {type: Number},
   location: {type: String, required: true },
   date: {type: Date, required: true },
