@@ -157,7 +157,7 @@ Event model
   description: {type: String, required: true },
   eventImg: { type: String },
   category: {type: String, required: true, enum:["talleres", "deporte", "exposiciones", "Visitas y tours", "infatil", "quedadas", "cine", "espectáculos", "charlas", "música", "otros"] },
-  free: {type: boolean, required: true,}
+  free: {type: boolean, required: true},
   likes: {type: Number },
   price: {type: Number},
   location: {type: String, required: true },
@@ -170,21 +170,20 @@ Event model
 
 ## API Endpoints (backend routes)
 
-| HTTP Method | URL                       | Request Body                | Success status | Error Status | Description                                                                                                                     |
-| ----------- | ------------------------- | --------------------------- | -------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| POST        | `/auth/signup`            | {username, email, password} | 201            | 404          | Checks if fields not empty (422) and user not exists (409), then create user with encrypted password, and store user in session |
-| POST        | `/auth/login`             | {email, password}           | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session              |
-| POST        | `/auth/logout`            | (empty)                     | 204            | 400          | Logs out the user                                                                                                               |
-| GET         | `/api/projects`           |                             |                | 400          | Sends all projects                                                                                                              |
-| GET         | `/api/projects/:projecId` | {id}                        |                |              | Sends one specific project with its tasks (if any)                                                                              |
-| POST        | `/api/projects`           | {title, description}        | 201            | 400          | Create and saves a new project in the DB                                                                                        |
-| PUT         | `/api/projects/:projecId` | {title, description}        | 200            | 400          | Edits project in the DB                                                                                                         |
-| DELETE      | `/api/projects/:projecId` | {id}                        | 201            | 400          | Deletes project                                                                                                                 |
-| POST        | `/api/tasks/:projecId`    | {name,description, status}  | 200            | 404          | Adds a new task to a specific project                                                                                           |
-| PUT         | `/api/tasks/:taskId`      | {name,description, status}  | 201            | 400          | Edits a task in the DB                                                                                                          |
-| DELETE      | `/api/tasks/:taskId`      | {id}                        | 200            | 400          | Deletes task                                                                                                                    |
-| GET         | `/api/user`               | {}                          | 201            | 400          | Sends user detauls                                                                                                              |
-| PUT         | `/api/user/:userId`       | {username ...}              |                |              | Edits user                                                                                                                      |
+| HTTP Method | URL                         | Request Body          | Success status | Error Status | Description                                                                                                                     |
+| ----------- | --------------------------- | --------------------- | -------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| POST        | `/auth/signup`              | {email, password ...} | 201            | 404          | Checks if fields not empty (422) and user not exists (409), then create user with encrypted password, and store user in session |
+| POST        | `/auth/login`               | {email, password}     | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session              |
+| POST        | `/auth/logout`              | (empty)               | 204            | 400          | Logs out the user                                                                                                               |
+| GET         | `/api/events`               |                       |                | 400          | Sends all events                                                                                                                |
+| GET         | `/api/events/:eventId`      | {id}                  |                |              | Sends one specific event                                                                                                        |
+| POST        | `/api/events`               | {title, description}  | 201            | 400          | Create and saves a new event in the DB                                                                                          |
+| PUT         | `/api/events/:eventId`      | {title, description}  | 200            | 400          | Edits event in the DB                                                                                                           |
+| DELETE      | `/api/events/:eventId`      | {id}                  | 201            | 400          | Deletes event                                                                                                                   |
+| GET         | `/api/user`                 | {}                    | 201            | 400          | Sends user detauls                                                                                                              |
+| PUT         | `/api/user/:userId`         | {username ...}        |                |              | Edits user                                                                                                                      |
+| GET         | `/api/commerce`             | {}                    | 201            | 400          | Sends commerce detauls                                                                                                          |
+| PUT         | `/api/commerce/:commerceId` | {name ...}            |                |              | Edits commerce                                                                                                                  |
 
 <br>
 
@@ -192,21 +191,13 @@ Event model
 
 ### Trello/Kanban
 
-[Link to your trello board](https://trello.com/)
-or picture of your physical board
+[Link to your trello board](https://trello.com/b/pEiiw1N0)
 
-### Git
+### Figma Proto
 
-The url to your repository and to your deployed project
+[Link to prototype](https://www.figma.com/proto/5j8DYsYFr4BfVLwJUxnCHh/Proyecto-illactiva?node-id=832%3A4066&viewport=-148%2C173%2C0.07832704484462738&scaling=scale-down)
 
-[Client repository Link](https://github.com/yourgitusername/project-client)
+### Client Repo
 
-[Server repository Link](https://github.com/yourgitusername/project-server)
+[Link to the repo](https://github.com/marclopez23/illactiva-client)
 
-[Deployed App Link](http://netlify.com)
-
-### Slides
-
-The url to your presentation slides
-
-[Slides Link](http://slides.com)
