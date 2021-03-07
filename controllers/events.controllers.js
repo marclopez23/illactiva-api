@@ -90,3 +90,21 @@ exports.edit = async (req, res) => {
     return res.status(400).json({ message: "Something gone wrong try again" });
   }
 };
+
+exports.deleteEvent = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const remove = await Event.findOneAndRemove({ _id: id });
+    const removeFromUser = await Commerce.findOneAndUpdate(
+      { eventsCreated: { $in: [id] } },
+      { $pull: { eventsCreated: id } },
+      {
+        new: true,
+      }
+    );
+    return res.status(400).json({ message: "Event deleted successfully" });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ message: "Something gone wrong try again" });
+  }
+};
