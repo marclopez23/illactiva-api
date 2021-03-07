@@ -5,11 +5,15 @@ const {
   create,
   edit,
   deleteEvent,
+  getEvent,
+  getEvents,
 } = require("../controllers/events.controllers");
 
 route
   .post("/create", withAuth, create)
-  .post("/edit", withAuth, edit)
-  .post("/delete", withAuth, deleteEvent);
+  .patch("/edit/:id", withAuth, edit)
+  .delete("/delete/:id", withAuth, deleteEvent)
+  .get("/:id", getEvent)
+  .get("/", getEvents);
 
 module.exports = route;

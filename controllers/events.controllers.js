@@ -58,6 +58,7 @@ exports.create = async (req, res) => {
 
 exports.edit = async (req, res) => {
   try {
+    const { id } = req.params;
     const {
       email,
       title,
@@ -69,7 +70,6 @@ exports.edit = async (req, res) => {
       price,
       location,
       date,
-      id,
     } = req.body;
     const hasMissingInfo =
       !location ||
@@ -93,7 +93,7 @@ exports.edit = async (req, res) => {
 
 exports.deleteEvent = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     const remove = await Event.findOneAndRemove({ _id: id });
     const removeFromUser = await Commerce.findOneAndUpdate(
       { eventsCreated: { $in: [id] } },
@@ -103,6 +103,27 @@ exports.deleteEvent = async (req, res) => {
       }
     );
     return res.status(400).json({ message: "Event deleted successfully" });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ message: "Something gone wrong try again" });
+  }
+};
+
+exports.getEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const event = await Event.findOne({ _id: id });
+    return res.status(200).json({ event: event });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ message: "Something gone wrong try again" });
+  }
+};
+
+exports.getEvents = async (req, res) => {
+  try {
+    const events = await Event.find({});
+    return res.status(200).json(events);
   } catch (e) {
     console.log(e);
     return res.status(400).json({ message: "Something gone wrong try again" });

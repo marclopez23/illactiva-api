@@ -8,7 +8,9 @@ require("./config/session.config")(app);
 
 const authRoutes = require("./routes/auth.routes");
 const eventRoutes = require("./routes/events.routes");
+const userRoutes = require("./routes/user.routes");
 app.use("/auth", authRoutes);
 app.use("/events", eventRoutes);
+app.use("/user", userRoutes);
 
 app.listen(process.env.PORT, () => console.log("server running"));

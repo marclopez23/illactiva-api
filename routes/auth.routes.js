@@ -5,15 +5,15 @@ const {
   login,
   signup,
   logout,
-  getUser,
   getCommerce,
+  getCommerces,
 } = require("../controllers/auth.controllers");
 
 route
   .post("/signup", signup)
   .post("/login", login)
   .post("/logout", logout)
-  .get("/user", withAuth, getUser)
-  .get("/commerce", withAuth, getCommerce);
+  .get("/commerce/:id", getCommerce)
+  .get("/commerces", getCommerces);
 
 module.exports = route;
