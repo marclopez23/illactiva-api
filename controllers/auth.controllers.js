@@ -20,6 +20,7 @@ exports.signup = async (req, res) => {
       schedule,
       tags,
       description,
+      neighbourhood,
     } = req.body;
 
     if (!isCommerce) {
@@ -39,7 +40,8 @@ exports.signup = async (req, res) => {
         !category ||
         !tags ||
         !schedule ||
-        !description;
+        !description ||
+        !neighbourhood;
       if (hasMissingCredentials) {
         return res.status(400).json({ message: "missing credentials" });
       }
@@ -83,6 +85,7 @@ exports.signup = async (req, res) => {
         tags,
         schedule,
         description,
+        neighbourhood,
       });
     }
 
@@ -142,5 +145,3 @@ exports.logout = async (req, res) => {
   await req.session.destroy();
   res.status(200).json({ message: "logout" });
 };
-
-
