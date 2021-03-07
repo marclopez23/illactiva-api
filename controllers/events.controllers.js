@@ -112,7 +112,7 @@ exports.deleteEvent = async (req, res) => {
 exports.getEvent = async (req, res) => {
   try {
     const { id } = req.params;
-    const event = await Event.findOne({ _id: id });
+    const event = await Event.findOne({ _id: id }).populate("creator");
     return res.status(200).json({ event: event });
   } catch (e) {
     console.log(e);

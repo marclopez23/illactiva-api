@@ -36,6 +36,7 @@ const UserSchema = new mongoose.Schema(
     profileImg: { type: String },
     eventsJoined: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
     eventsCreated: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "Commerce" }],
   },
   { timestamps: true }
 );
