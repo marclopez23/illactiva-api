@@ -37,16 +37,13 @@ exports.create = async (req, res) => {
 
 exports.edit = async (req, res) => {
   try {
+    const userId = req.session.userId;
     const { id } = req.params;
     const {
-      email,
       title,
       description,
-      eventImg,
       category,
       free,
-      likes,
-      price,
       location,
       date,
     } = req.body;
@@ -54,7 +51,6 @@ exports.edit = async (req, res) => {
       !location ||
       !category ||
       !title ||
-      !email ||
       !description ||
       !free ||
       !date;
