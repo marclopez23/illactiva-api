@@ -1,50 +1,28 @@
 const User = require("../model/user.model");
 const Commerce = require("../model/commerce.model");
 const Event = require("../model/event.model");
+const DeletedItem = require("../model/event.model");
 
 exports.create = async (req, res) => {
   try {
-    const {
-      email,
-      title,
-      description,
-      eventImg,
-      category,
-      free,
-      likes,
-      price,
-      location,
-      date,
-    } = req.body;
+    const id = req.session.userId;
+    const { title, description, category, free, location, date } = req.body;
     const hasMissingInfo =
-      !location ||
-      !category ||
-      !title ||
-      !email ||
-      !description ||
-      !free ||
-      !date;
+      !location || !category || !title || !description || !free || !date;
     if (hasMissingInfo) {
       return res.status(400).json({ message: "missing info" });
     }
-    let creator = await User.findOne({ email });
+    let creator = await User.findOne({ _id: id });
     if (!creator) {
-      creator = await Commerce.findOne({ email });
+      creator = await Commerce.findOne({ _id: id });
     }
     const event = await Event.create({
       creator,
-      title,
-      description,
-      eventImg,
-      category,
-      free,
-      likes,
-      price,
-      location,
-      date,
+      ...req.body,
+      onModel: "Commerce",
     });
     const updateUser = await Commerce.findOneAndUpdate(
-      email,
+      { _id: id },
       { $push: { eventsCreated: event._id } },
       {
         new: true,
@@ -52,6 +30,7 @@ exports.create = async (req, res) => {
     );
     return res.status(200).json({ event });
   } catch (e) {
+    console.log(e);
     return res.status(400).json({ message: "Something gone wrong try again" });
   }
 };
@@ -94,7 +73,8 @@ exports.edit = async (req, res) => {
 exports.deleteEvent = async (req, res) => {
   try {
     const { id } = req.params;
-    const remove = await Event.findOneAndRemove({ _id: id });
+    const event = await Event.findById({ _id: id });
+    await event.remove();
     const removeFromUser = await Commerce.findOneAndUpdate(
       { eventsCreated: { $in: [id] } },
       { $pull: { eventsCreated: id } },

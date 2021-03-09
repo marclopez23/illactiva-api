@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const route = Router();
+
 const { withAuth } = require("../middlewares/withAuth");
 const {
   create,

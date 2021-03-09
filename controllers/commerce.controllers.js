@@ -9,11 +9,10 @@ exports.getCommerce = async (req, res) => {
 
 exports.getCommerces = async (req, res) => {
   try {
-    const commerces = await Commerce.find({});
+    const commerces = await Commerce.find(req.query);
     return res.status(200).json({ commerces: commerces });
   } catch (e) {
     console.log(e);
     return res.status(400).json({ message: "Something gone wrong try again" });
   }
 };
-

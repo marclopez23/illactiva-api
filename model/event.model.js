@@ -1,15 +1,14 @@
 const mongoose = require("mongoose");
-const User = require("../model/user.model");
-const Commerce = require("../model/commerce.model");
+const DeletedItem = require("./delete.model");
 
 const EventSchema = mongoose.Schema(
   {
-    creator: [{ type: mongoose.Schema.Types.ObjectId, ref: "Commerce" }],
-    /*onModel: {
-    type: String,
-    required: true,
-    enum: ["User", "Commerce"],
-  },*/
+    creator: [{ type: mongoose.Schema.Types.ObjectId, refpath: "onModel" }],
+    onModel: {
+      type: String,
+      required: true,
+      enum: ["User", "Commerce"],
+    },
     title: { type: String, required: true },
     description: { type: String, required: true },
     eventImg: { type: String },
@@ -39,5 +38,9 @@ const EventSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+EventSchema.post("remove", async (item) => {
+  await DeletedItem.create({ collectionName: "Event", item });
+});
 
 module.exports = mongoose.model("Event", EventSchema);
