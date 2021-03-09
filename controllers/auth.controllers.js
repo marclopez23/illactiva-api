@@ -19,6 +19,8 @@ exports.signup = async (req, res) => {
       isCommerce,
       schedule,
       tags,
+      description,
+      neighbourhood,
     } = req.body;
 
     if (!isCommerce) {
@@ -37,7 +39,9 @@ exports.signup = async (req, res) => {
         !name ||
         !category ||
         !tags ||
-        !schedule;
+        !schedule ||
+        !description ||
+        !neighbourhood;
       if (hasMissingCredentials) {
         return res.status(400).json({ message: "missing credentials" });
       }
@@ -80,6 +84,8 @@ exports.signup = async (req, res) => {
         profileImg,
         tags,
         schedule,
+        description,
+        neighbourhood,
       });
     }
 
@@ -138,16 +144,4 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
   await req.session.destroy();
   res.status(200).json({ message: "logout" });
-};
-
-exports.getUser = async (req, res) => {
-  const { userId } = req.session;
-  const { email, _id } = await User.findOne({ _id: userId });
-  res.status(200).json({ id: _id, email });
-};
-
-exports.getCommerce = async (req, res) => {
-  const { userId } = req.session;
-  const commerce = await Commerce.findOne({ userId });
-  res.status(200).json(commerce);
 };

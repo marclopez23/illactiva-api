@@ -135,6 +135,7 @@ Commerce model
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
   direction: {type: String, required: true},
+  description: {type: String, required: true},
   category: {type: String, enum:["restauración", "cultura", "moda", "asociación", "deporte", "salud", "electrónica", "otros", "comida"], required: true },
   tags: {type: Array, required: true },
   schedule: {type: String, required: true},
