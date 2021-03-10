@@ -20,7 +20,6 @@ exports.signup = async (req, res) => {
       schedule,
       tags,
       description,
-      direction,
     } = req.body;
 
     if (!isCommerce) {
