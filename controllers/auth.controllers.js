@@ -17,9 +17,6 @@ exports.signup = async (req, res) => {
       category,
       profileImg,
       isCommerce,
-      schedule,
-      tags,
-      description,
     } = req.body;
 
     if (!isCommerce) {
@@ -40,6 +37,7 @@ exports.signup = async (req, res) => {
         !tags ||
         !schedule ||
         !description ||
+        !neighbourhood ||
         !direction;
       if (hasMissingCredentials) {
         return res.status(400).json({ message: "missing credentials" });
@@ -85,6 +83,9 @@ exports.signup = async (req, res) => {
         schedule,
         description,
         neighbourhood,
+        facebook,
+        twitter,
+        instagram,
       });
     }
 
