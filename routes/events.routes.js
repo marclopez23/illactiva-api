@@ -11,7 +11,7 @@ const {
 } = require("../controllers/events.controllers");
 
 route
-  .post("/create", withAuth, create)
+  .post("/create", create)
   .patch("/edit/:id", withAuth, edit)
   .delete("/delete/:id", withAuth, deleteEvent)
   .get("/:id", getEvent)

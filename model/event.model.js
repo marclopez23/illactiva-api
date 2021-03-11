@@ -3,7 +3,7 @@ const DeletedItem = require("./delete.model");
 
 const EventSchema = mongoose.Schema(
   {
-    creator: [{ type: mongoose.Schema.Types.ObjectId, refpath: "onModel" }],
+    creator: { type: mongoose.Schema.Types.ObjectId, refpath: "onModel" },
     onModel: {
       type: String,
       required: true,
@@ -31,7 +31,7 @@ const EventSchema = mongoose.Schema(
     },
     free: { type: Boolean, required: true },
     likes: { type: Number },
-    price: { type: Number },
+    price: { type: String },
     date: { type: Date, required: true },
     resgisteredUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },

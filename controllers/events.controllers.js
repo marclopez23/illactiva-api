@@ -6,9 +6,11 @@ const DeletedItem = require("../model/event.model");
 exports.create = async (req, res) => {
   try {
     const id = req.session.userId;
-    const { title, description, category, free, location, date } = req.body;
+    console.log("creator", id);
+    const { title, description, category, free, date } = req.body;
+    console.log("body", req.body);
     const hasMissingInfo =
-      !location || !category || !title || !description || !free || !date;
+      !category || !title || !description || !free || !date;
     if (hasMissingInfo) {
       return res.status(400).json({ message: "missing info" });
     }
@@ -17,7 +19,7 @@ exports.create = async (req, res) => {
       creator = await Commerce.findOne({ _id: id });
     }
     const event = await Event.create({
-      creator,
+      creator: id,
       ...req.body,
       onModel: "Commerce",
     });
@@ -28,6 +30,7 @@ exports.create = async (req, res) => {
         new: true,
       }
     );
+    console.log(event);
     return res.status(200).json({ event });
   } catch (e) {
     console.log(e);
