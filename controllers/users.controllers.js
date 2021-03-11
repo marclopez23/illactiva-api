@@ -1,6 +1,6 @@
 const User = require("../model/user.model");
 const Commerce = require("../model/commerce.model");
-
+const Events = require("../model/commerce.model");
 //Can find and edit Users and Commerces
 
 exports.getUser = async (req, res) => {
@@ -9,7 +9,8 @@ exports.getUser = async (req, res) => {
     .populate("following")
     .populate("eventsJoined")
     .populate("eventsCreated");
-  if (!user) user = await Commerce.findOne({ _id: userId });
+  if (!user)
+    user = await Commerce.findOne({ _id: userId }).populate("eventsCreated");
   res.status(200).json({ user: user });
 };
 

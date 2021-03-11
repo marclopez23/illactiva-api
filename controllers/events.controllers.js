@@ -39,21 +39,9 @@ exports.edit = async (req, res) => {
   try {
     const userId = req.session.userId;
     const { id } = req.params;
-    const {
-      title,
-      description,
-      category,
-      free,
-      location,
-      date,
-    } = req.body;
+    const { title, description, category, free, location, date } = req.body;
     const hasMissingInfo =
-      !location ||
-      !category ||
-      !title ||
-      !description ||
-      !free ||
-      !date;
+      !location || !category || !title || !description || !free || !date;
     if (hasMissingInfo) {
       return res.status(400).json({ message: "missing info" });
     }
@@ -89,6 +77,7 @@ exports.getEvent = async (req, res) => {
   try {
     const { id } = req.params;
     const event = await Event.findOne({ _id: id }).populate("creator");
+    console.log(event);
     return res.status(200).json({ event: event });
   } catch (e) {
     console.log(e);
