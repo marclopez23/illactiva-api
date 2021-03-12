@@ -6,10 +6,9 @@ const DeletedItem = require("../model/event.model");
 exports.create = async (req, res) => {
   try {
     const id = req.session.userId;
-    console.log("creator", id);
+    console.log("creator", req.body);
     const { title, description, category, free, date } = req.body;
-    const hasMissingInfo =
-      !category || !title || !description || !free || !date;
+    const hasMissingInfo = !category || !title || !description || !date;
     if (hasMissingInfo) {
       return res.status(400).json({ message: "missing info" });
     }
