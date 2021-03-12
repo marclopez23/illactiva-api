@@ -8,7 +8,6 @@ exports.create = async (req, res) => {
     const id = req.session.userId;
     console.log("creator", id);
     const { title, description, category, free, date } = req.body;
-    console.log("body", req.body);
     const hasMissingInfo =
       !category || !title || !description || !free || !date;
     if (hasMissingInfo) {
