@@ -17,6 +17,13 @@ exports.signup = async (req, res) => {
       category,
       profileImg,
       isCommerce,
+      tags,
+      schedule,
+      description,
+      neighbourhood,
+      facebook,
+      twitter,
+      instagram,
     } = req.body;
 
     if (!isCommerce) {
