@@ -5,6 +5,7 @@ const DeletedItem = require("../model/event.model");
 
 exports.create = async (req, res) => {
   try {
+    let onModel = "User";
     const id = req.session.userId;
     console.log("creator", req.body);
     const { title, description, category, free, date } = req.body;
@@ -15,19 +16,30 @@ exports.create = async (req, res) => {
     let creator = await User.findOne({ _id: id });
     if (!creator) {
       creator = await Commerce.findOne({ _id: id });
+      onModel = "Commerce";
     }
     const event = await Event.create({
       creator: id,
       ...req.body,
-      onModel: "Commerce",
+      onModel,
     });
-    const updateUser = await Commerce.findOneAndUpdate(
-      { _id: id },
-      { $push: { eventsCreated: event._id } },
-      {
-        new: true,
-      }
-    );
+    if (onModel === "Commerce") {
+      const updateCommerce = await Commerce.findOneAndUpdate(
+        { _id: id },
+        { $push: { eventsCreated: event._id } },
+        {
+          new: true,
+        }
+      );
+    } else {
+      const updateUser = await User.findOneAndUpdate(
+        { _id: id },
+        { $push: { eventsCreated: event._id } },
+        {
+          new: true,
+        }
+      );
+    }
     console.log(event);
     return res.status(200).json({ event });
   } catch (e) {
@@ -60,13 +72,23 @@ exports.deleteEvent = async (req, res) => {
     const { id } = req.params;
     const event = await Event.findById({ _id: id });
     await event.remove();
-    const removeFromUser = await Commerce.findOneAndUpdate(
-      { eventsCreated: { $in: [id] } },
-      { $pull: { eventsCreated: id } },
-      {
-        new: true,
-      }
-    );
+    if (event.onModel === "Commerce") {
+      const removeFromCommerce = await Commerce.findOneAndUpdate(
+        { eventsCreated: { $in: [id] } },
+        { $pull: { eventsCreated: id } },
+        {
+          new: true,
+        }
+      );
+    } else {
+      const removeFromUser = await User.findOneAndUpdate(
+        { eventsCreated: { $in: [id] } },
+        { $pull: { eventsCreated: id } },
+        {
+          new: true,
+        }
+      );
+    }
     return res.status(400).json({ message: "Event deleted successfully" });
   } catch (e) {
     console.log(e);
