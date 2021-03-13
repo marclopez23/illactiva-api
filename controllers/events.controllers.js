@@ -9,9 +9,9 @@ exports.create = async (req, res) => {
   try {
     let onModel = "User";
     const id = req.session.userId;
-    console.log("creator", req.body);
-    const { title, description, category, free, date } = req.body;
-    const hasMissingInfo = !category || !title || !description || !date;
+    const { title, description, category, free, date, hour, place } = req.body;
+    const hasMissingInfo =
+      !category || !title || !description || !date || !place || !hour;
     if (hasMissingInfo) {
       return res.status(400).json({ message: "missing info" });
     }

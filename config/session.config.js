@@ -10,10 +10,10 @@ module.exports = (app) => {
       secret: SESSION_SECRET,
       resave: true,
       saveUninitialized: true,
-      cookie: { maxAge: 3600000 * 24 * 14 },
+      cookie: { maxAge: 360000 * 24 * 14 },
       store: MongoStore.create({
         mongoUrl: MONGODB_URI,
-        ttl: 3600000 * 24 * 14,
+        ttl: 360000 * 24 * 14,
       }),
     })
   );

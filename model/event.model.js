@@ -34,6 +34,8 @@ const EventSchema = mongoose.Schema(
     likes: { type: Number },
     price: { type: String },
     date: { type: Date, required: true },
+    hour: { type: String, required: true },
+    place: { type: String, required: true },
     resgisteredUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }

@@ -73,7 +73,7 @@ exports.signup = async (req, res) => {
         email,
         hashedPassword,
         name,
-        direction,
+        neighbourhood: direction,
         category,
         profileImg,
       });
@@ -97,14 +97,13 @@ exports.signup = async (req, res) => {
     }
 
     req.session.userId = newUser._id;
-    return res
-      .status(200)
-      .json({
-        user: newUser.email,
-        id: newUser._id,
-        name: newUser.name,
-        avatar: newUser.profileImg,
-      });
+    return res.status(200).json({
+      user: newUser.email,
+      id: newUser._id,
+      name: newUser.name,
+      avatar: newUser.profileImg,
+      neighbourhood: newUser.neighbourhood,
+    });
   } catch (e) {
     if (isMongooseErrorValidation(e)) {
       console.log(e);
@@ -151,6 +150,7 @@ exports.login = async (req, res) => {
       id: user._id,
       name: user.name,
       avatar: user.profileImg,
+      neighbourhood: user.neighbourhood,
     });
   } catch (e) {
     if (isMongooseErrorValidation(e)) {

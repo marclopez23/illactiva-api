@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema(
       require: true,
     },
     name: { type: String, required: true },
-    direction: { type: String, required: true },
+    neighbourhood: { type: String, required: true },
     category: {
       type: [String],
       required: true,
