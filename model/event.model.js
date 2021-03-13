@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { startSession } = require("./delete.model");
 const DeletedItem = require("./delete.model");
 
 const EventSchema = mongoose.Schema(
