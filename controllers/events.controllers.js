@@ -9,9 +9,18 @@ exports.create = async (req, res) => {
   try {
     let onModel = "User";
     const id = req.session.userId;
-    const { title, description, category, free, date, hour, place } = req.body;
+    const {
+      title,
+      description,
+      category,
+      free,
+      date,
+      hour,
+      place,
+      end,
+    } = req.body;
     const hasMissingInfo =
-      !category || !title || !description || !date || !place || !hour;
+      !category || !title || !description || !date || !place || !hour || !end;
     if (hasMissingInfo) {
       return res.status(400).json({ message: "missing info" });
     }
@@ -54,9 +63,18 @@ exports.edit = async (req, res) => {
   try {
     const userId = req.session.userId;
     const { id } = req.params;
-    const { title, description, category, free, location, date } = req.body;
+    const {
+      title,
+      description,
+      category,
+      free,
+      date,
+      hour,
+      place,
+      end,
+    } = req.body;
     const hasMissingInfo =
-      !location || !category || !title || !description || !free || !date;
+      !category || !title || !description || !date || !place || !hour || !end;
     if (hasMissingInfo) {
       return res.status(400).json({ message: "missing info" });
     }
