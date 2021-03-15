@@ -52,7 +52,7 @@ exports.create = async (req, res) => {
       );
     }
     console.log(event);
-    return res.status(200).json({ event });
+    return res.status(200).json({ event: event });
   } catch (e) {
     console.log(e);
     return res.status(400).json({ message: "Something gone wrong try again" });
