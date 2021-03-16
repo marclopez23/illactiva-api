@@ -137,3 +137,93 @@ exports.getEvents = async (req, res) => {
     return res.status(400).json({ message: "Something gone wrong try again" });
   }
 };
+
+exports.joinEvent = async (req, res) => {
+  try {
+    let updateUser;
+    let updateEvent;
+    const { id } = req.params;
+    const { userId } = req.session;
+    let type = "user";
+    let user = await User.findOne({ _id: userId });
+    if (!user) {
+      user = await Commerce.findOne({ _id: userId });
+      type = "commerce";
+      if (!user)
+        return res.status(400).json({ message: "user does not exist" });
+    }
+    const event = Event.findById(id);
+    const checkUser = await User.find({ _id: userId, eventsJoined: id });
+    if (type === "user") {
+      if (checkUser.length === 0) {
+        updateUser = await User.findOneAndUpdate(
+          userId,
+          { $push: { eventsJoined: id } },
+          {
+            new: true,
+          }
+        );
+        console.log(checkUser.length === 0);
+        updateEvent = await Event.findOneAndUpdate(
+          id,
+          { $push: { resgisteredUsers: userId } },
+          {
+            new: true,
+          }
+        );
+      } else {
+        updateUser = await User.findOneAndUpdate(
+          { _id: userId },
+          { $pull: { eventsJoined: id } },
+          {
+            new: true,
+          }
+        );
+        updateEvent = await Event.findOneAndUpdate(
+          id,
+          { $pull: { resgisteredUsers: userId } },
+          {
+            new: true,
+          }
+        );
+      }
+    } else {
+      if (checkUser.length === 0) {
+        updateUser = await Commerce.findOneAndUpdate(
+          { _id: userId },
+          { $push: { eventsJoined: id } },
+          {
+            new: true,
+          }
+        );
+        updateEvent = await Event.findOneAndUpdate(
+          id,
+          { $push: { resgisteredUsers: userId } },
+          {
+            new: true,
+          }
+        );
+      } else {
+        updateUser = await Commerce.findOneAndUpdate(
+          userId,
+          { $pull: { eventsJoined: id } },
+          {
+            new: true,
+          }
+        );
+        updateEvent = await Event.findOneAndUpdate(
+          id,
+          { $pull: { resgisteredUsers: event } },
+          {
+            new: true,
+          }
+        );
+      }
+    }
+
+    res.status(200).json({ user: updateUser, event: updateEvent });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ message: "wrong request" });
+  }
+};

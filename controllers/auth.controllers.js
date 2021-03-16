@@ -103,6 +103,8 @@ exports.signup = async (req, res) => {
       name: newUser.name,
       avatar: newUser.profileImg,
       neighbourhood: newUser.neighbourhood,
+      eventsJoined: newUser.eventsJoined,
+      following: newUser.following,
     });
   } catch (e) {
     if (isMongooseErrorValidation(e)) {
@@ -151,6 +153,8 @@ exports.login = async (req, res) => {
       name: user.name,
       avatar: user.profileImg,
       neighbourhood: user.neighbourhood,
+      eventsJoined: user.eventsJoined,
+      following: user.following,
     });
   } catch (e) {
     if (isMongooseErrorValidation(e)) {

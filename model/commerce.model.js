@@ -25,6 +25,7 @@ const CommerceSchema = new mongoose.Schema(
     schedule: { type: [String], required: true },
     profileImg: { type: String },
     eventsCreated: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
+    eventsJoined: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
     web: { type: String },
     instagram: { type: String },
     twitter: { type: String },

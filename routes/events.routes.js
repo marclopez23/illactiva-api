@@ -8,6 +8,7 @@ const {
   deleteEvent,
   getEvent,
   getEvents,
+  joinEvent,
 } = require("../controllers/events.controllers");
 
 route
@@ -15,6 +16,7 @@ route
   .patch("/edit/:id", withAuth, edit)
   .delete("/delete/:id", withAuth, deleteEvent)
   .get("/:id", getEvent)
-  .get("/", getEvents);
+  .get("/", getEvents)
+  .patch("/join/:id", joinEvent);
 
 module.exports = route;

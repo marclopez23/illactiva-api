@@ -39,10 +39,10 @@ exports.followCommerce = async (req, res) => {
     const { userId } = req.session;
     const commerce = await Commerce.find({ _id: id });
     console.log(commerce);
-    const checkUser = await User.find({ following: id });
+    const checkUser = await User.find({ _id: userId, following: id });
     if (checkUser.length === 0) {
       updateUser = await User.findOneAndUpdate(
-        userId,
+        { _id: userId },
         { $push: { following: commerce } },
         {
           new: true,
@@ -50,7 +50,7 @@ exports.followCommerce = async (req, res) => {
       );
     } else {
       updateUser = await User.findOneAndUpdate(
-        userId,
+        { _id: userId },
         { $pull: { following: id } },
         {
           new: true,
