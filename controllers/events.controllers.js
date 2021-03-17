@@ -221,7 +221,7 @@ exports.joinEvent = async (req, res) => {
       }
     }
 
-    res.status(200).json({ user: updateUser, event: updateEvent });
+    res.status(200).json({ event: updateEvent });
   } catch (e) {
     console.log(e);
     return res.status(400).json({ message: "wrong request" });
