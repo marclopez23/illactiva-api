@@ -26,6 +26,7 @@ const CommerceSchema = new mongoose.Schema(
     profileImg: { type: String },
     eventsCreated: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
     eventsJoined: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "Commerce" }],
     web: { type: String },
     instagram: { type: String },
     twitter: { type: String },
