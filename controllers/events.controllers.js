@@ -35,7 +35,7 @@ exports.create = async (req, res) => {
       onModel,
     });
     if (onModel === "Commerce") {
-      const updateCommerce = await Commerce.findOneAndUpdate(
+      const updateCommerce = await Commerce.findByIdAndUpdate(
         { _id: id },
         { $push: { eventsCreated: event._id } },
         {
@@ -43,7 +43,7 @@ exports.create = async (req, res) => {
         }
       );
     } else {
-      const updateUser = await User.findOneAndUpdate(
+      const updateUser = await User.findByIdAndUpdate(
         { _id: id },
         { $push: { eventsCreated: event._id } },
         {
@@ -76,13 +76,16 @@ exports.edit = async (req, res) => {
     const hasMissingInfo =
       !category || !title || !description || !date || !place || !hour || !end;
     if (hasMissingInfo) {
+      console.log("missing");
       return res.status(400).json({ message: "missing info" });
     }
-    let updatedEvent = await Event.findOneAndUpdate({ _id: id }, req.body, {
+    let updatedEvent = await Event.findByIdAndUpdate({ _id: id }, req.body, {
       new: true,
     });
+    console.log(updatedEvent);
     return res.status(200).json({ updatedEvent: updatedEvent });
   } catch (e) {
+    console.log(e);
     return res.status(400).json({ message: "Something gone wrong try again" });
   }
 };
@@ -120,7 +123,6 @@ exports.getEvent = async (req, res) => {
   try {
     const { id } = req.params;
     const event = await Event.findOne({ _id: id }).populate("creator");
-    console.log(event);
     return res.status(200).json({ event: event });
   } catch (e) {
     console.log(e);
@@ -142,17 +144,17 @@ exports.joinEvent = async (req, res) => {
   try {
     let updateUser;
     let updateEvent;
-    const { id } = req.params;
+    const { id: eventId } = req.params;
     const { userId } = req.session;
     let checkUser;
     let type = "user";
     let user = await User.findOne({ _id: userId });
     if (user) {
-      checkUser = await User.find({ _id: userId, eventsJoined: id });
+      checkUser = await User.find({ _id: userId, eventsJoined: eventId });
     }
     if (!user) {
       user = await Commerce.findOne({ _id: userId });
-      checkUser = await Commerce.find({ _id: userId, eventsJoined: id });
+      checkUser = await Commerce.find({ _id: userId, eventsJoined: eventId });
       type = "commerce";
       if (!user)
         return res.status(400).json({ message: "user does not exist" });
@@ -160,31 +162,30 @@ exports.joinEvent = async (req, res) => {
 
     if (type === "user") {
       if (checkUser.length === 0) {
-        updateUser = await User.findOneAndUpdate(
+        updateUser = await User.findByIdAndUpdate(
           userId,
-          { $push: { eventsJoined: id } },
+          { $push: { eventsJoined: eventId } },
           {
             new: true,
           }
         );
-        console.log(checkUser.length === 0);
-        updateEvent = await Event.findOneAndUpdate(
-          id,
+        updateEvent = await Event.findByIdAndUpdate(
+          eventId,
           { $push: { resgisteredUsers: userId } },
           {
             new: true,
           }
         );
       } else {
-        updateUser = await User.findOneAndUpdate(
+        updateUser = await User.findByIdAndUpdate(
           { _id: userId },
-          { $pull: { eventsJoined: id } },
+          { $pull: { eventsJoined: eventId } },
           {
             new: true,
           }
         );
-        updateEvent = await Event.findOneAndUpdate(
-          id,
+        updateEvent = await Event.findByIdAndUpdate(
+          eventId,
           { $pull: { resgisteredUsers: userId } },
           {
             new: true,
@@ -193,30 +194,30 @@ exports.joinEvent = async (req, res) => {
       }
     } else {
       if (checkUser.length === 0) {
-        updateUser = await Commerce.findOneAndUpdate(
+        updateUser = await Commerce.findByIdAndUpdate(
           { _id: userId },
-          { $push: { eventsJoined: id } },
+          { $push: { eventsJoined: eventId } },
           {
             new: true,
           }
         );
-        updateEvent = await Event.findOneAndUpdate(
-          id,
+        updateEvent = await Event.findByIdAndUpdate(
+          eventId,
           { $push: { resgisteredUsers: userId } },
           {
             new: true,
           }
         );
       } else {
-        updateUser = await Commerce.findOneAndUpdate(
+        updateUser = await Commerce.findByIdAndUpdate(
           userId,
-          { $pull: { eventsJoined: id } },
+          { $pull: { eventsJoined: eventId } },
           {
             new: true,
           }
         );
-        updateEvent = await Event.findOneAndUpdate(
-          id,
+        updateEvent = await Event.findByIdAndUpdate(
+          eventId,
           { $pull: { resgisteredUsers: event } },
           {
             new: true,
