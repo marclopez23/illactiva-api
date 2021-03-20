@@ -13,6 +13,7 @@ const CommerceSchema = new mongoose.Schema(
     hashedPassword: {
       type: String,
       require: true,
+      select: false,
     },
     name: { type: String, required: true },
     direction: { type: String, required: true },

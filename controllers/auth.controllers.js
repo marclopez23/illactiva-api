@@ -93,18 +93,28 @@ exports.signup = async (req, res) => {
         facebook,
         twitter,
         instagram,
+        web,
       });
     }
 
     req.session.userId = newUser._id;
     return res.status(200).json({
-      user: newUser.email,
+      email: newUser.email,
       id: newUser._id,
       name: newUser.name,
       avatar: newUser.profileImg,
       neighbourhood: newUser.neighbourhood,
       eventsJoined: newUser.eventsJoined,
       following: newUser.following,
+      category: newUser.category,
+      eventsCreated: newUser.eventsCreated,
+      tags: newUser.tags,
+      schedule: newUser.schedule,
+      description: newUser.description,
+      facebook: newUser.facebook,
+      twitter: newUser.twitter,
+      instagram: newUser.instagram,
+      web: newUser.web,
     });
   } catch (e) {
     if (isMongooseErrorValidation(e)) {
@@ -131,9 +141,9 @@ exports.login = async (req, res) => {
       return res.status(400).json({ message: "incorrect password format" });
     }
 
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email }).select("+hashedPassword");
     if (!user) {
-      user = await Commerce.findOne({ email });
+      user = await Commerce.findOne({ email }).select("+hashedPassword");
       if (!user)
         return res.status(400).json({ message: "user does not exist" });
     }
@@ -148,13 +158,22 @@ exports.login = async (req, res) => {
     req.session.userId = user._id;
 
     return res.status(200).json({
-      user: user.email,
+      email: user.email,
       id: user._id,
       name: user.name,
       avatar: user.profileImg,
       neighbourhood: user.neighbourhood,
       eventsJoined: user.eventsJoined,
       following: user.following,
+      category: user.category,
+      eventsCreated: user.eventsCreated,
+      tags: user.tags,
+      schedule: user.schedule,
+      description: user.description,
+      facebook: user.facebook,
+      twitter: user.twitter,
+      instagram: user.instagram,
+      web: user.web,
     });
   } catch (e) {
     if (isMongooseErrorValidation(e)) {

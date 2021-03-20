@@ -13,6 +13,7 @@ const UserSchema = new mongoose.Schema(
     hashedPassword: {
       type: String,
       require: true,
+      select: false,
     },
     name: { type: String, required: true },
     neighbourhood: { type: String, required: true },

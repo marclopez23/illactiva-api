@@ -16,7 +16,22 @@ exports.getUser = async (req, res) => {
 
 exports.editUser = async (req, res) => {
   try {
+    const { email } = req.body;
     const { userId } = req.session;
+    const userCheck = await User.findOne({ _id: { $ne: userId }, email });
+    const commerceCheck = await Commerce.findOne({
+      _id: { $ne: userId },
+      email,
+    });
+    if (userCheck) {
+      return res.status(400).json({
+        message: "El correo electrónico ya existe para otro usuario",
+      });
+    }
+    if (commerceCheck) {
+      return res.status(400).json({ message: "commerce alredy exists" });
+    }
+
     let user = await User.findOneAndUpdate({ _id: userId }, req.body, {
       new: true,
     });

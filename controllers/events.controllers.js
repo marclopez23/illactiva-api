@@ -81,7 +81,7 @@ exports.edit = async (req, res) => {
     let updatedEvent = await Event.findOneAndUpdate({ _id: id }, req.body, {
       new: true,
     });
-    return res.status(400).json({ updatedEvent: updatedEvent });
+    return res.status(200).json({ updatedEvent: updatedEvent });
   } catch (e) {
     return res.status(400).json({ message: "Something gone wrong try again" });
   }
@@ -109,7 +109,7 @@ exports.deleteEvent = async (req, res) => {
         }
       );
     }
-    return res.status(400).json({ message: "Event deleted successfully" });
+    return res.status(201).json({ message: "Event deleted successfully" });
   } catch (e) {
     console.log(e);
     return res.status(400).json({ message: "Something gone wrong try again" });
@@ -144,16 +144,20 @@ exports.joinEvent = async (req, res) => {
     let updateEvent;
     const { id } = req.params;
     const { userId } = req.session;
+    let checkUser;
     let type = "user";
     let user = await User.findOne({ _id: userId });
+    if (user) {
+      checkUser = await User.find({ _id: userId, eventsJoined: id });
+    }
     if (!user) {
       user = await Commerce.findOne({ _id: userId });
+      checkUser = await Commerce.find({ _id: userId, eventsJoined: id });
       type = "commerce";
       if (!user)
         return res.status(400).json({ message: "user does not exist" });
     }
-    const event = Event.findById(id);
-    const checkUser = await User.find({ _id: userId, eventsJoined: id });
+
     if (type === "user") {
       if (checkUser.length === 0) {
         updateUser = await User.findOneAndUpdate(
@@ -220,7 +224,6 @@ exports.joinEvent = async (req, res) => {
         );
       }
     }
-
     res.status(200).json({ event: updateEvent });
   } catch (e) {
     console.log(e);
