@@ -24,6 +24,7 @@ exports.signup = async (req, res) => {
       facebook,
       twitter,
       instagram,
+      web,
     } = req.body;
 
     if (!isCommerce) {
@@ -44,14 +45,27 @@ exports.signup = async (req, res) => {
         !tags ||
         !schedule ||
         !description ||
-        !neighbourhood ||
-        !direction;
+        !neighbourhood;
       if (hasMissingCredentials) {
+        console.log(
+          "missing",
+          hasMissingCredentials,
+          !password,
+          !email,
+          !direction,
+          !name,
+          !category,
+          !tags,
+          !schedule,
+          !description,
+          !neighbourhood
+        );
         return res.status(400).json({ message: "missing credentials" });
       }
     }
 
     if (!hasCorrectPasswordFormat(password)) {
+      console.log(e);
       return res.status(400).json({ message: "incorrect password format" });
     }
 

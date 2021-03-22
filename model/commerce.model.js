@@ -32,6 +32,7 @@ const CommerceSchema = new mongoose.Schema(
     instagram: { type: String },
     twitter: { type: String },
     facebook: { type: String },
+    description: { type: String, required: true },
   },
   { timestamps: true }
 );

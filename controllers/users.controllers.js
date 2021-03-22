@@ -53,7 +53,7 @@ exports.followCommerce = async (req, res) => {
     const { id } = req.params;
     const { userId } = req.session;
     const commerce = await Commerce.find({ _id: id });
-    console.log(commerce);
+    console.log("hols");
     const checkUser = await User.find({ _id: userId, following: id });
     if (checkUser.length === 0) {
       updateUser = await User.findOneAndUpdate(
