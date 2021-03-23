@@ -10,7 +10,10 @@ exports.getUser = async (req, res) => {
     .populate("eventsJoined")
     .populate("eventsCreated");
   if (!user)
-    user = await Commerce.findOne({ _id: userId }).populate("eventsCreated");
+    user = await Commerce.findOne({ _id: userId })
+      .populate("eventsCreated")
+      .populate("following")
+      .populate("eventsJoined");
   res.status(200).json({ user: user });
 };
 
