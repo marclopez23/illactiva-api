@@ -13,6 +13,7 @@ const CommerceSchema = new mongoose.Schema(
     hashedPassword: {
       type: String,
       require: true,
+      select: false,
     },
     name: { type: String, required: true },
     direction: { type: String, required: true },
@@ -25,10 +26,13 @@ const CommerceSchema = new mongoose.Schema(
     schedule: { type: [String], required: true },
     profileImg: { type: String },
     eventsCreated: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
+    eventsJoined: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "Commerce" }],
     web: { type: String },
     instagram: { type: String },
     twitter: { type: String },
     facebook: { type: String },
+    description: { type: String, required: true },
   },
   { timestamps: true }
 );

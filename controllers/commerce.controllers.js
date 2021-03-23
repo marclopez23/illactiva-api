@@ -9,7 +9,7 @@ exports.getCommerce = async (req, res) => {
 
 exports.getCommerces = async (req, res) => {
   try {
-    const commerces = await Commerce.find(req.query);
+    const commerces = await Commerce.find();
     return res.status(200).json({ commerces: commerces });
   } catch (e) {
     console.log(e);

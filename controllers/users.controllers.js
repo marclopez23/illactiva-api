@@ -10,13 +10,31 @@ exports.getUser = async (req, res) => {
     .populate("eventsJoined")
     .populate("eventsCreated");
   if (!user)
-    user = await Commerce.findOne({ _id: userId }).populate("eventsCreated");
+    user = await Commerce.findOne({ _id: userId })
+      .populate("eventsCreated")
+      .populate("following")
+      .populate("eventsJoined");
   res.status(200).json({ user: user });
 };
 
 exports.editUser = async (req, res) => {
   try {
+    const { email } = req.body;
     const { userId } = req.session;
+    const userCheck = await User.findOne({ _id: { $ne: userId }, email });
+    const commerceCheck = await Commerce.findOne({
+      _id: { $ne: userId },
+      email,
+    });
+    if (userCheck) {
+      return res.status(400).json({
+        message: "El correo electrónico ya existe para otro usuario",
+      });
+    }
+    if (commerceCheck) {
+      return res.status(400).json({ message: "commerce alredy exists" });
+    }
+
     let user = await User.findOneAndUpdate({ _id: userId }, req.body, {
       new: true,
     });
@@ -38,11 +56,11 @@ exports.followCommerce = async (req, res) => {
     const { id } = req.params;
     const { userId } = req.session;
     const commerce = await Commerce.find({ _id: id });
-    console.log(commerce);
-    const checkUser = await User.find({ following: id });
+    console.log("hols");
+    const checkUser = await User.find({ _id: userId, following: id });
     if (checkUser.length === 0) {
       updateUser = await User.findOneAndUpdate(
-        userId,
+        { _id: userId },
         { $push: { following: commerce } },
         {
           new: true,
@@ -50,7 +68,7 @@ exports.followCommerce = async (req, res) => {
       );
     } else {
       updateUser = await User.findOneAndUpdate(
-        userId,
+        { _id: userId },
         { $pull: { following: id } },
         {
           new: true,
