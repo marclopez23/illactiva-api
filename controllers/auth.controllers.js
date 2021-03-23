@@ -112,6 +112,7 @@ exports.signup = async (req, res) => {
     }
 
     req.session.userId = newUser._id;
+    console.log(req.session);
     return res.status(200).json({
       email: newUser.email,
       id: newUser._id,
@@ -170,7 +171,7 @@ exports.login = async (req, res) => {
     }
 
     req.session.userId = user._id;
-
+    console.log(req.session);
     return res.status(200).json({
       email: user.email,
       id: user._id,
