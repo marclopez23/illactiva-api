@@ -5,6 +5,7 @@ const Events = require("../model/commerce.model");
 
 exports.getUser = async (req, res) => {
   const { userId } = req.session;
+  console.log("sesion", req.session);
   let user = await User.findOne({ _id: userId })
     .populate("following")
     .populate("eventsJoined")
