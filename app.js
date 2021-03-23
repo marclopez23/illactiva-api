@@ -3,8 +3,8 @@ const express = require("express");
 const app = express();
 
 require("./config/db.config")();
-require("./config/middleware.config")(app);
 require("./config/session.config")(app);
+require("./config/middleware.config")(app);
 
 const authRoutes = require("./routes/auth.routes");
 const eventRoutes = require("./routes/events.routes");
