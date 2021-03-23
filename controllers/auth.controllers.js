@@ -170,7 +170,6 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: "unauthorize" });
     }
 
-    req.session.userId = user._id;
     console.log(req.session);
     return res.status(200).json({
       email: user.email,

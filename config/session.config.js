@@ -15,6 +15,7 @@ module.exports = (app) => {
         mongoUrl: MONGODB_URI,
         ttl: 360000 * 24 * 14,
       }),
+      userId: "user id",
     })
   );
 };
