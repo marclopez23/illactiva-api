@@ -8,7 +8,7 @@ module.exports = (app) => {
   app.use(
     session({
       secret: SESSION_SECRET,
-      resave: false,
+      resave: true,
       saveUninitialized: true,
       cookie: { maxAge: 360000 * 24 * 14 },
       store: MongoStore.create({
