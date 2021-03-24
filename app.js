@@ -1,17 +1,14 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-
-
-app.set("trust proxy", true);
+require("./config/db.config")();
 require("./config/session.config")(app);
 require("./config/middleware.config")(app);
-require("./config/db.config")();
 app.use((req, res, next) => {
-  console.log("cookie", req.headers.cookie);
+  console.log("cookie", req.cookies);
+  console.log("sign cookie", req.signedCookies);
   next();
 });
-
 const authRoutes = require("./routes/auth.routes");
 const eventRoutes = require("./routes/events.routes");
 const userRoutes = require("./routes/user.routes");
@@ -22,5 +19,4 @@ app.use("/events", eventRoutes);
 app.use("/user", userRoutes);
 app.use("/commerces", commerceRoutes);
 app.use("/upload", uploadRoutes);
-
 app.listen(process.env.PORT, () => console.log("server running"));
