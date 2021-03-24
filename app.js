@@ -2,14 +2,15 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 
-require("./config/db.config")();
-app.use((req, res, next) => {
-  console.log("cookie", req.headers.cookies);
-  next();
-});
+
 app.set("trust proxy", true);
 require("./config/session.config")(app);
 require("./config/middleware.config")(app);
+require("./config/db.config")();
+app.use((req, res, next) => {
+  console.log("cookie", req.headers.cookie);
+  next();
+});
 
 const authRoutes = require("./routes/auth.routes");
 const eventRoutes = require("./routes/events.routes");
