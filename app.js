@@ -5,8 +5,6 @@ require("./config/db.config")();
 require("./config/session.config")(app);
 require("./config/middleware.config")(app);
 app.use((req, res, next) => {
-  console.log("cookie", req.cookies);
-  console.log("sign cookie", req.signedCookies);
   next();
 });
 const authRoutes = require("./routes/auth.routes");
