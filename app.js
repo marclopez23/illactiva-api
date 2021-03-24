@@ -3,6 +3,11 @@ const express = require("express");
 const app = express();
 
 require("./config/db.config")();
+app.use((req, res, next) => {
+  console.log("headers", req.headers)
+ next()
+})
+app.set("trust proxy", true)
 require("./config/session.config")(app);
 require("./config/middleware.config")(app);
 
