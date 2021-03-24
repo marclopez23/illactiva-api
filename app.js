@@ -4,7 +4,7 @@ const app = express();
 
 require("./config/db.config")();
 app.use((req, res, next) => {
-  console.log("cookies", req.headers.cookies);
+  console.log("cookie", req.headers.cookies);
   next();
 });
 app.set("trust proxy", true);
