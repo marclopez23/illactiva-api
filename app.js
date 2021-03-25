@@ -1,4 +1,5 @@
 require("dotenv").config();
+const { protect } = require("./middlewares/withAuth");
 const express = require("express");
 const app = express();
 require("./config/db.config")();
@@ -13,6 +14,7 @@ const userRoutes = require("./routes/user.routes");
 const commerceRoutes = require("./routes/commerce.routes");
 const uploadRoutes = require("./routes/upload.routes");
 app.use("/auth", authRoutes);
+app.use(protect);
 app.use("/events", eventRoutes);
 app.use("/user", userRoutes);
 app.use("/commerces", commerceRoutes);

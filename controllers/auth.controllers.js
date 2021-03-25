@@ -1,6 +1,7 @@
 const User = require("../model/user.model");
 const Commerce = require("../model/commerce.model");
 const bcrypt = require("bcryptjs");
+const { newToken } = require("../utils/jwt.utils");
 const {
   hasCorrectPasswordFormat,
   isMongoError,
@@ -111,8 +112,9 @@ exports.signup = async (req, res) => {
       });
     }
 
-    req.session.userId = newUser._id;
-    console.log(req.session);
+    const token = newToken(newUser);
+    req.session.userId = user._id;
+
     return res.status(200).json({
       email: newUser.email,
       id: newUser._id,
@@ -130,6 +132,7 @@ exports.signup = async (req, res) => {
       twitter: newUser.twitter,
       instagram: newUser.instagram,
       web: newUser.web,
+      token,
     });
   } catch (e) {
     if (isMongooseErrorValidation(e)) {
@@ -169,9 +172,9 @@ exports.login = async (req, res) => {
     if (!hasCorrectPassword) {
       return res.status(401).json({ message: "unauthorize" });
     }
-
+    const token = newToken(user);
+    console.log(token);
     req.session.userId = user._id;
-    console.log(req.session);
     return res.status(200).json({
       email: user.email,
       id: user._id,
@@ -189,11 +192,13 @@ exports.login = async (req, res) => {
       twitter: user.twitter,
       instagram: user.instagram,
       web: user.web,
+      token,
     });
   } catch (e) {
     if (isMongooseErrorValidation(e)) {
       return res.status(400).json({ message: "incorrect email format" });
     }
+    console.log(e);
     return res.status(400).json({ message: "wrong request" });
   }
 };
