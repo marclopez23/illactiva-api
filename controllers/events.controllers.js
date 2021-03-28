@@ -22,7 +22,7 @@ exports.create = async (req, res) => {
     const hasMissingInfo =
       !category || !title || !description || !date || !place || !hour || !end;
     if (hasMissingInfo) {
-      return res.status(400).json({ message: "missing info" });
+      return res.status(400).json({ message: "Falta info" });
     }
     let creator = await User.findOne({ _id: id });
     if (!creator) {
@@ -51,11 +51,9 @@ exports.create = async (req, res) => {
         }
       );
     }
-    console.log(event);
     return res.status(200).json({ event: event });
   } catch (e) {
-    console.log(e);
-    return res.status(400).json({ message: "Something gone wrong try again" });
+    return res.status(400).json({ message: "Algo ha salido mal" });
   }
 };
 
@@ -76,17 +74,14 @@ exports.edit = async (req, res) => {
     const hasMissingInfo =
       !category || !title || !description || !date || !place || !hour || !end;
     if (hasMissingInfo) {
-      console.log("missing");
-      return res.status(400).json({ message: "missing info" });
+      return res.status(400).json({ message: "Falta información" });
     }
     let updatedEvent = await Event.findByIdAndUpdate({ _id: id }, req.body, {
       new: true,
     });
-    console.log(updatedEvent);
     return res.status(200).json({ updatedEvent: updatedEvent });
   } catch (e) {
-    console.log(e);
-    return res.status(400).json({ message: "Something gone wrong try again" });
+    return res.status(400).json({ message: "Algo ha salido mal" });
   }
 };
 
@@ -112,10 +107,9 @@ exports.deleteEvent = async (req, res) => {
         }
       );
     }
-    return res.status(201).json({ message: "Event deleted successfully" });
+    return res.status(201).json({ message: "Evento borrado" });
   } catch (e) {
-    console.log(e);
-    return res.status(400).json({ message: "Something gone wrong try again" });
+    return res.status(400).json({ message: "Algo ha salido mal" });
   }
 };
 
@@ -125,8 +119,7 @@ exports.getEvent = async (req, res) => {
     const event = await Event.findOne({ _id: id }).populate("creator");
     return res.status(200).json({ event: event });
   } catch (e) {
-    console.log(e);
-    return res.status(400).json({ message: "Something gone wrong try again" });
+    return res.status(400).json({ message: "Algo ha salido mal" });
   }
 };
 
@@ -135,8 +128,7 @@ exports.getEvents = async (req, res) => {
     const events = await Event.find({});
     return res.status(200).json(events);
   } catch (e) {
-    console.log(e);
-    return res.status(400).json({ message: "Something gone wrong try again" });
+    return res.status(400).json({ message: "Algo ha salido mal" });
   }
 };
 
@@ -157,7 +149,7 @@ exports.joinEvent = async (req, res) => {
       checkUser = await Commerce.find({ _id: userId, eventsJoined: eventId });
       type = "commerce";
       if (!user)
-        return res.status(400).json({ message: "user does not exist" });
+        return res.status(400).json({ message: "El usuario no existe" });
     }
 
     if (type === "user") {
@@ -227,7 +219,6 @@ exports.joinEvent = async (req, res) => {
     }
     res.status(200).json({ event: updateEvent });
   } catch (e) {
-    console.log(e);
-    return res.status(400).json({ message: "wrong request" });
+    return res.status(400).json({ message: "Algo ha salido mal" });
   }
 };
