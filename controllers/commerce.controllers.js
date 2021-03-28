@@ -2,7 +2,6 @@ const Commerce = require("../model/commerce.model");
 
 exports.getCommerce = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   const commerce = await Commerce.findById({ _id: id })
     .populate("following")
     .populate("eventsJoined")
@@ -18,7 +17,6 @@ exports.getCommerces = async (req, res) => {
       .populate("eventsCreated");
     return res.status(200).json({ commerces: commerces });
   } catch (e) {
-    console.log(e);
     return res.status(400).json({ message: "Something gone wrong try again" });
   }
 };
