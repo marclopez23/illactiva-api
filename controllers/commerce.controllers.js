@@ -3,13 +3,19 @@ const Commerce = require("../model/commerce.model");
 exports.getCommerce = async (req, res) => {
   const { id } = req.params;
   console.log(id);
-  const commerce = await Commerce.findOne({ _id: id });
+  const commerce = await Commerce.findById({ _id: id })
+    .populate("following")
+    .populate("eventsJoined")
+    .populate("eventsCreated");
   res.status(200).json(commerce);
 };
 
 exports.getCommerces = async (req, res) => {
   try {
-    const commerces = await Commerce.find();
+    const commerces = await Commerce.find()
+      .populate("following")
+      .populate("eventsJoined")
+      .populate("eventsCreated");
     return res.status(200).json({ commerces: commerces });
   } catch (e) {
     console.log(e);

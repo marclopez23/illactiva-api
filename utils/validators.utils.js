@@ -10,8 +10,14 @@ const hasCorrectPasswordFormat = (password) => {
   return passRegEx.test(password);
 };
 
+function validateEmail(email) {
+  var re = /\S+@\S+\.\S+/;
+  return re.test(email);
+}
+
 module.exports = {
   isMongoError,
   isMongooseErrorValidation,
   hasCorrectPasswordFormat,
+  validateEmail,
 };

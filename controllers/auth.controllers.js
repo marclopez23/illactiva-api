@@ -31,7 +31,7 @@ exports.signup = async (req, res) => {
       const hasMissingCredentials =
         !password || !email || !direction || !name || !category;
       if (hasMissingCredentials) {
-        return res.status(400).json({ message: "missing credentials" });
+        return res.status(400).json({ message: "Parece ser que faltan datos" });
       }
     }
 
@@ -47,35 +47,23 @@ exports.signup = async (req, res) => {
         !description ||
         !neighbourhood;
       if (hasMissingCredentials) {
-        console.log(
-          "missing",
-          hasMissingCredentials,
-          !password,
-          !email,
-          !direction,
-          !name,
-          !category,
-          !tags,
-          !schedule,
-          !description,
-          !neighbourhood
-        );
-        return res.status(400).json({ message: "missing credentials" });
+        return res.status(400).json({ message: "Faltan credenciales" });
       }
     }
 
     if (!hasCorrectPasswordFormat(password)) {
-      console.log(e);
-      return res.status(400).json({ message: "incorrect password format" });
+      return res.status(400).json({ message: "Formato de contraseña incorrecto" });
     }
 
     const user = await User.findOne({ email });
     const commerce = await Commerce.findOne({ email });
     if (user) {
-      return res.status(400).json({ message: "user alredy exists" });
+      return res.status(400).json({ message: "Ya existe un usuario con este correo" });
     }
     if (commerce) {
-      return res.status(400).json({ message: "commerce alredy exists" });
+      return res
+        .status(400)
+        .json({ message: "Ya existe un usuario con este correo" });
     }
 
     const saltRounds = 10;
@@ -112,7 +100,6 @@ exports.signup = async (req, res) => {
     }
 
     req.session.userId = newUser._id;
-    console.log(req.session);
     return res.status(200).json({
       email: newUser.email,
       id: newUser._id,
@@ -133,14 +120,12 @@ exports.signup = async (req, res) => {
     });
   } catch (e) {
     if (isMongooseErrorValidation(e)) {
-      console.log(e);
-      return res.status(400).json({ message: "incorrect email format" });
+      return res.status(400).json({ message: "Formato de email incorrecto" });
     }
     if (isMongoError(e)) {
       return res.status(400).json({ message: "duplicate field" });
     }
-    console.log(e);
-    return res.status(400).json({ message: "wrong request" });
+    return res.status(400).json({ message: "Algo ha salido mal" });
   }
 };
 
@@ -153,25 +138,26 @@ exports.login = async (req, res) => {
     }
 
     if (!hasCorrectPasswordFormat(password)) {
-      return res.status(400).json({ message: "incorrect password format" });
+      return res.status(400).json({ message: "Contraseña incorrecta" });
     }
 
     let user = await User.findOne({ email }).select("+hashedPassword");
     if (!user) {
       user = await Commerce.findOne({ email }).select("+hashedPassword");
       if (!user)
-        return res.status(400).json({ message: "user does not exist" });
+        return res
+          .status(400)
+          .json({ message: "Comprueba el correo electrónico" });
     }
     const hasCorrectPassword = await bcrypt.compare(
       password,
       user.hashedPassword
     );
     if (!hasCorrectPassword) {
-      return res.status(401).json({ message: "unauthorize" });
+      return res.status(401).json({ message: "Contraseña incorrecta" });
     }
 
     req.session.userId = user._id;
-    console.log(req.session);
     return res.status(200).json({
       email: user.email,
       id: user._id,
@@ -192,9 +178,9 @@ exports.login = async (req, res) => {
     });
   } catch (e) {
     if (isMongooseErrorValidation(e)) {
-      return res.status(400).json({ message: "incorrect email format" });
+      return res.status(400).json({ message: "Formato de email incorrecto" });
     }
-    return res.status(400).json({ message: "wrong request" });
+    return res.status(400).json({ message: "Algo ha salido mal" });
   }
 };
 
