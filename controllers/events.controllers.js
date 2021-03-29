@@ -125,7 +125,7 @@ exports.getEvent = async (req, res) => {
 
 exports.getEvents = async (req, res) => {
   try {
-    const events = await Event.find({});
+    const events = await Event.find({}).populate("creator");
     return res.status(200).json(events);
   } catch (e) {
     return res.status(400).json({ message: "Algo ha salido mal" });
