@@ -1,10 +1,10 @@
-# Illactiva
+![Illactiva](https://github.com/marclopez23/illactiva-client/blob/main/src/assets/logo.png)
 
 <br>
 
-## M3 Final Project
+### Deplloy Link
 
-<br>
+[Link](https://illactiva.netlify.app/)
 
 ## Description
 
@@ -22,18 +22,19 @@ It is an app that will allow neighbors and local businesses to create events. Th
 - **Delete event** As a user I can delete a event
 - **Join event** As a user I can join to an event.
 - **Unsubscribe event** As a user I can unsubscribe from an event
-- **Follow commerce** As a user I can follow a commerce.
-- **Unollow commerce** As a user I can unfollow a commerce.
+- **Follow commerce** As a user I can follow a commerce
+- **Unollow commerce** As a user I can unfollow a commerce
 - **View User profile** As a user I can see my profile
 - **Edit User profile** As a user I can edit my profile
+- **Commerce profile** As a user I want to see the commerces profiles
+- **My Activities** As a user I want to see my joined and created events
+- **My folowed commerces** As a user I want to see my followed commerces
 
 ## Backlog
 
 - Show event stats
 - Send emails with notifications
 - Geolocalize events by neighborhood
-- Create a list of created event
-- Create a list of attended event
 - Light/Dark mode
 
 <br>
@@ -44,68 +45,161 @@ It is an app that will allow neighbors and local businesses to create events. Th
 
 | Path               | Component       | Permissions                | Behavior                                                         |
 | ------------------ | --------------- | -------------------------- | ---------------------------------------------------------------- |
-| `/`                | HomePage        | public `<Route>`           | Home page / Landing Page                                         |
-| `/signup`          | SignupPage      | anon only `<AnonRoute>`    | Signup form, link to login, navigate to dashboard after signup   |
-| `/login`           | LoginPage       | anon only `<AnonRoute>`    | Login form, link to signup, navigate to dashboard after login    |
-| `/dashboard`       | EventsPage      | user only `<PrivateRoute>` | Page that shows all created events                               |
-| `/events/add`      | AddEventForm    | user only `<PrivateRoute>` | New project form, adds a new ticket and redirects to ticket page |
-| `/events/edit/:id` | EditEventForm   | user only `<PrivateRoute>` | Edit the project info                                            |
-| `/events/:id`      | EventDetailPage | user only `<PrivateRoute>` | Page with the details of a event                                 |
-| `/profile`         | ProfilePage     | user only `<PrivateRoute>` | Shows the user profile, an edit options                          |
-| `/commerce/:id`    | ProfilePage     | user only `<PrivateRoute>` | Shows the commerce profile, an their events                      |
+| `/`                | Home / HomePrivate       | public / user  `<Route>` / `<PrivateRoute>`      | Home page / Landing Page           |
+| `/registrarme`          | SignUp    | anon only `<AnonRoute>`    | Signup form, link to login, navigate to Home Private  after signup   |
+| `/iniciar-sesion`           | Login    | anon only `<AnonRoute>`    | Login form, link to signup, navigate to Home Private after login    |
+| `/eventos`       | Events   | user only `<PrivateRoute>` | Page where the user can select to see the events joined or created                             |
+| `/crear-evento`      | CreateEvent   | user only `<PrivateRoute>` | New event form, adds a new event and redirects to event connfirmation |
+| `/evento/editar/:id` | EditEvent   | user only `<PrivateRoute>` | Edit the event info                                            |
+| `/evento/creado` | EventConfirmation   | user only `<PrivateRoute>` | Screen to confirm to the user that the event is created              |
+| `/evento/:id`      | Event | user only `<PrivateRoute>` | Page with the details of a event where the user can join                                 |
+| `/eventos/:query/`      | UserEvents | user only `<PrivateRoute>` | Page with a list of user joined or created events                               |
+| `/eventos/:query/:cuando`| MoreEvents | user only `<PrivateRoute>` | Page with a list of user joined or created events but filter for next or past events   |
+| `/perfil`         | Profile   | user only `<PrivateRoute>` | Shows the user profile                        |
+| `/perfil/editar/:id` | EditProfile   | user only `<PrivateRoute>` | Page where the user can edit the profile info                      |
+| `/comercios/:id`    | CommercePage     | user only `<PrivateRoute>` | Shows the commerce profile, an their events                      |
+| `/comercios/seguidos`    | FollowedCommerces     | user only `<PrivateRoute>` | Shows the commerces followed by the user                     |
+| `/buscar`    | Search    | user only `<PrivateRoute>` | Page where the user can search events by category                    |
+| `/eventos-:filtro`    | EventsList    | user only `<PrivateRoute>` | Page where the user can search events by a filter                   |
+| `*`    | ErrorPage   | publlic | 404 or ErrorBoundary Page                 |
 
 ## Components
 
-- HomePage
+- Home
 
-- LoginPage
-
-- SignupPage
-
-- EventsPage
-
+- HomePrivate
   - EventCard
+  - EventCardLarge
+  - Header
+  - CommerceCard
 
-- AddEventForm
-- EditEventForm
+- Login
+  - LoginForm
 
-- EventDetailPage
+- Signup
+  - SimpleHeader
+  - SignUpForm
+    - CategorySelector
+    - ConfirmationForm
+    - FormFooter
+  - SignUpCommerce
+    - Tag
+    - ConfirmationForm
+    - FormFooter
 
-- ProfilePage
+- Events
+  - Header
 
-  - EditProfileForm
+- CreateEvent
+ - EventForm
+   - FormFooter
+
+- EditEvent
+ - SimpleHeader
+
+- EventConfirmation 
+
+- Event
+
+- UserEvents
+  - SimpleHeader
+  - EventCardLarge
+
+- MoreEvents
+  - SimpleHeader
+  - EventCardLarge
+
+- Profile
+  - ProfileHeader
+  - Tag
+  - ListButton
+  
+- EditProfile
+  - Tag
+  - CategorySelector
+  - Loader
+  - SimpleHeader
+
+- CommercePage
+  - ProfileHeader
+  - Tag
+  - EventCardLarge
+ 
+- FollowedCommerces
+  - CommerceCard
+  - SimpleHeader
+
+- Search
+  - CategorySelector
+  - EventCardLarge
+  - Tag
+
+- EventsList
+  - SimpleHeader
+  - EventCardLarge
+
+- ErrorPage
 
 - Routes
-
   - AnonRoute
   - PrivateRoute
 
 - Common
   - Navbar
   - Footer
-  - Button...
+  - Button
+  - Menu
+  - Loader
+  - Footer
+  - ErrorBoundary
+  - ScrollToTop
 
 ## Services
 
 - Auth Service
-
   - authApi.login(user)
   - authApi.signup(user)
   - authApi.logout()
 
 - Events Service
-
-  - eventsApi.list()
-  - eventsApi.addEvent(event)
-  - eventsApi.getEventDetails(eventId)
-  - eventsApi.editEvent(eventId, eventBody)
+  - eventsApi.getEvents()
+  - eventsApi.createEvent(info)
+  - eventsApi.getEvent(id)
+  - eventsApi.editEvent(id, info)
   - eventsApi.deletEevent(eventId)
+  - eventsApi.joinEvent(eventId) -> This also works for unsubscribe for an event
 
 - User Service
-  - usersApi.editUser(userId, userBody)
-  - userApi.followCommerce(userId, commerceId)
+  - usersApi.get()
+  - usersApi.edit(id, info)
+  - userApi.followCommerce(commerceId) -> This also works for unfollow commerces
+
+- Commerces Service
+  - commerceApi.getCommerces()
+  - commerceApi.getCommerce(id)
+
+- Upload Image Service
+  - projectApi.uploadFileService(file)
 
 <br>
+
+## Contexts
+
+- AuthContext
+  - user
+  - handleLogin()
+  - handleLogout()
+  - handleSignup()
+  - setUser()
+
+- EventContext
+  - events
+  - bringEvent(id)
+  - newEvent(id)
+  - setEvents()
+  - registerEvent(id)
+  - quitEvent(id)
+  - eventEdit(id, info)
 
 # Server / Backend
 
@@ -115,76 +209,135 @@ User model
 
 ```javascript
 {
-  name: {type: String, required: true },
-  email: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
-  direction: {type: String, required: true},
-  category: {type: String, required: true, enum:["talleres", "deporte", "exposiciones", "Visitas y tours", "infatil", "quedadas", "cine", "espectáculos", "charlas", "música", "otros"] },
-  profileImg: {type: String },
-  eventsJoined: [ { type: mongoose.Schema.Types.ObjectId, ref: "Event" } ],
-  eventsCreated: [ { type: mongoose.Schema.Types.ObjectId, ref: "Event" } ]
-}
+    email: {
+      type: String,
+      require: true,
+      unique: true,
+      match: EMAIL_REGEX,
+    },
+    hashedPassword: {
+      type: String,
+      require: true,
+      select: false,
+    },
+    name: { type: String, required: true },
+    neighbourhood: { type: String, required: true },
+    category: {
+      type: [String],
+      required: true,
+    },
+    profileImg: { type: String },
+    eventsJoined: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
+    eventsCreated: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "Commerce" }],
+  }
 ```
 
 Commerce model
 
 ```javascript
 {
-  name: {type: String, required: true, unique: true},
-  description: {type: String, required: true},
-  email: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
-  direction: {type: String, required: true},
-  description: {type: String, required: true},
-  category: {type: String, enum:["restauración", "cultura", "moda", "asociación", "deporte", "salud", "electrónica", "otros", "comida"], required: true },
-  tags: {type: Array, required: true },
-  schedule: {type: String, required: true},
-  profileImg: {type: String },
-  eventsCreated: [ { type: mongoose.Schema.Types.ObjectId, ref: "Envent" } ]
-}
+    email: {
+      type: String,
+      require: true,
+      unique: true,
+      match: EMAIL_REGEX,
+    },
+    hashedPassword: {
+      type: String,
+      require: true,
+      select: false,
+    },
+    name: { type: String, required: true },
+    direction: { type: String, required: true },
+    neighbourhood: { type: String, required: true },
+    category: {
+      type: String,
+      required: true,
+    },
+    tags: { type: [String], required: true },
+    schedule: { type: [String], required: true },
+    profileImg: { type: String },
+    eventsCreated: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
+    eventsJoined: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "Commerce" }],
+    web: { type: String },
+    instagram: { type: String },
+    twitter: { type: String },
+    facebook: { type: String },
+    description: { type: String, required: true },
+  }
 ```
 
 Event model
 
 ```javascript
 {
-  creator: [ { type: mongoose.Schema.Types.ObjectId, refPath: "onModel" } ],
-  onModel: {
-    type: String,
-    required: true,
-    enum: ['User', 'Commerce']
-  },
-  title: {type: String, required: true },
-  description: {type: String, required: true },
-  eventImg: { type: String },
-  category: {type: String, required: true, enum:["talleres", "deporte", "exposiciones", "Visitas y tours", "infatil", "quedadas", "cine", "espectáculos", "charlas", "música", "otros"] },
-  free: {type: boolean, required: true},
-  likes: {type: Number },
-  price: {type: Number},
-  location: {type: String, required: true },
-  date: {type: Date, required: true },
-  resgisteredUsers: [ { type: mongoose.Schema.Types.ObjectId, ref: "User" } ],
-},
+    creator: { type: mongoose.Schema.Types.ObjectId, refPath: "onModel" },
+    onModel: {
+      type: String,
+      required: true,
+      enum: ["User", "Commerce"],
+    },
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    eventImg: { type: String },
+    category: {
+      type: String,
+      required: true,
+    },
+    free: { type: Boolean, required: true },
+    likes: { type: Number },
+    price: { type: String },
+    date: { type: Date, required: true },
+    hour: { type: String, required: true },
+    end: { type: String, required: true },
+    place: { type: String, required: true },
+    maxUsers: { type: String, required: true },
+    resgisteredUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  }
 ```
 
 <br>
 
+Delte model (shallow deleting)
+
+```javascript
+ {
+    collectionName: {
+      type: String,
+      required: true,
+    },
+    deletedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    item: {
+      type: Object,
+    },
+  }
+```
+
 ## API Endpoints (backend routes)
 
-| HTTP Method | URL                         | Request Body          | Success status | Error Status | Description                                                                                                                     |
-| ----------- | --------------------------- | --------------------- | -------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| POST        | `/auth/signup`              | {email, password ...} | 201            | 404          | Checks if fields not empty (422) and user not exists (409), then create user with encrypted password, and store user in session |
-| POST        | `/auth/login`               | {email, password}     | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session              |
-| POST        | `/auth/logout`              | (empty)               | 204            | 400          | Logs out the user                                                                                                               |
-| GET         | `/api/events`               |                       |                | 400          | Sends all events                                                                                                                |
-| GET         | `/api/events/:eventId`      | {id}                  |                |              | Sends one specific event                                                                                                        |
-| POST        | `/api/events`               | {title, description}  | 201            | 400          | Create and saves a new event in the DB                                                                                          |
-| PUT         | `/api/events/:eventId`      | {title, description}  | 200            | 400          | Edits event in the DB                                                                                                           |
-| DELETE      | `/api/events/:eventId`      | {id}                  | 201            | 400          | Deletes event                                                                                                                   |
-| GET         | `/api/user`                 | {}                    | 201            | 400          | Sends user detauls                                                                                                              |
-| PUT         | `/api/user/:userId`         | {username ...}        |                |              | Edits user                                                                                                                      |
-| GET         | `/api/commerce`             | {}                    | 201            | 400          | Sends commerce detauls                                                                                                          |
-| PUT         | `/api/commerce/:commerceId` | {name ...}            |                |              | Edits commerce                                                                                                                  |
+| HTTP Method | URL                         | Request Body          | Success status | Error Status | 
+| ----------- | --------------------------- | --------------------- | -------------- | ------------ |
+| POST        | `/auth/signup`              | {password, email, name, direction, category, profileImg, isCommerce, tags,schedule, description, neighbourhood, facebook, twitter, instagram, web,} | 200            | 400        | 
+| POST        | `/auth/login`               | {email, password}     | 200            | 401        | 
+| POST        | `/auth/logout`              |            | 200            | 400          | 
+| GET         | `/events`               | {}                       |  200              | 400 / 401          | 
+| GET         | `/events/:eventId`      | {id}                  | 200                |              | 
+| PATCH         | `/events/edit/:eventId`| {eventId, title, description, category, free, date, hour, place, end}      |   200             |    400          | 
+| POST        | `/events/create`        | {title, description, category, free, date, hour, place, end}  | 200           | 400          | 
+| PATCH       | `/api/events/:join/:eventId`      | {eventId}  | 200            | 400          |                                           
+| DELETE      | `/events/:eventId`      | {eventId}                  | 200            | 400          | 
+| GET         | `/user`                 | {}                    | 200            | 400          | 
+| PATCH       | `/user/edit/:userId`         | {email, name, direction, category, profileImg, tags,schedule, description, neighbourhood, facebook, twitter, instagram, web}        |    200            |    400          | 
+| PATCH      | `/user/follow/:commerceId` | {commerceId}            |    200            |     400         |
+| GET         | `/commerces`             | {}                    | 200            | 400          | 
+| GET         | `/commerces/:commerceId` | {commerceId}            |  200              |  400            |
+
+<br>
 
 <br>
 
@@ -198,7 +351,7 @@ Event model
 
 [Link to prototype](https://www.figma.com/proto/5j8DYsYFr4BfVLwJUxnCHh/Proyecto-illactiva?node-id=832%3A4066&viewport=-148%2C173%2C0.07832704484462738&scaling=scale-down)
 
-### Client Repo
+### API Repo
 
-[Link to the repo](https://github.com/marclopez23/illactiva-client)
+[Link to the repo](https://github.com/marclopez23/illactiva-api)
 
