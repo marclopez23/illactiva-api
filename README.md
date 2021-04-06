@@ -355,5 +355,5 @@ Delte model (shallow deleting)
 
 ### Client Repo
 
-[Link to the repo](https://github.com/marclopez23/illactiva-api)
+[Link to the repo](https://github.com/marclopez23/illactiva-client)
 
