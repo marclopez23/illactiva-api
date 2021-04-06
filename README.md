@@ -353,7 +353,7 @@ Delte model (shallow deleting)
 
 [Link to prototype](https://www.figma.com/proto/5j8DYsYFr4BfVLwJUxnCHh/Proyecto-illactiva?node-id=832%3A4066&viewport=-148%2C173%2C0.07832704484462738&scaling=scale-down)
 
-### API Repo
+### Client Repo
 
 [Link to the repo](https://github.com/marclopez23/illactiva-api)
 
