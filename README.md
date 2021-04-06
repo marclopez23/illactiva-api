@@ -1,8 +1,10 @@
+<br>
+
 ![Illactiva](https://github.com/marclopez23/illactiva-client/blob/main/src/assets/logo.png)
 
 <br>
 
-### Deplloy Link
+### Deploy Link
 
 [Link](https://illactiva.netlify.app/)
 
